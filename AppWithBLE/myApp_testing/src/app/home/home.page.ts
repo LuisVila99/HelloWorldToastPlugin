@@ -8,51 +8,40 @@ import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 })
 export class HomePage implements OnInit{
 
-  constructor(private bluetoothLE: BluetoothLE) {}
+  constructor(private bluetoothLE: BluetoothLE, private foundDevices: any[]) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     console.log('on init');
     //------------------
+    this.bluetoothLE.initialize().subscribe();
+    this.bluetoothLE.enable();
 
-    var params = {
-      service: "1234",
-      characteristics: [
-        {
-          uuid: "ABCD",
-          permissions: {
-            read: true,
-            write: true,
-            //readEncryptionRequired: true,
-            //writeEncryptionRequired: true,
-          },
-          properties : {
-            read: true,
-            writeWithoutResponse: true,
-            write: true,
-            notify: true,
-            indicate: true,
-            //authenticatedSignedWrites: true,
-            //notifyEncryptionRequired: true,
-            //indicateEncryptionRequired: true,
-          }
-        }
-      ]
-    };
+    const a1 = await this.bluetoothLE.getAdapterInfo();
+    console.log(a1);
 
-    //var params1 = {
-    //  "services":["1234"], //iOS
-    //  "service":"1234", //Android
-    //  "name":"Hello World",
-    //};
+    //var param = {
+    //  "services": [
+    //    "180D",
+    //    "180F"
+    //  ],
+    //  "allowDuplicates": true,
+    //  "scanMode": this.bluetoothLE.SCAN_MODE_LOW_LATENCY,
+    //  "matchMode": this.bluetoothLE.MATCH_MODE_AGGRESSIVE,
+    //  "matchNum": this.bluetoothLE.MATCH_NUM_MAX_ADVERTISEMENT,
+    //  "callbackType": this.bluetoothLE.CALLBACK_TYPE_ALL_MATCHES,
+    //}
+    //this.bluetoothLE.startScan(param1).subscribe();
+    this.bluetoothLE.startScan({'services':[]});
+    const a2 = this.bluetoothLE.isScanning(); // yes 
+    console.log(a2);
 
-    this.bluetoothLE.initialize();
-    this.bluetoothLE.initializePeripheral(); // inicia peripheral
-    this.bluetoothLE.addService(params).then();
-    //this.bluetoothLE.startAdvertising(params1).then();
 
-    //console.log(this.bluetoothLE.isAdvertising().then());
     //------------------
     console.log('finito init');
   } 
+
+
+
+
 
 }
