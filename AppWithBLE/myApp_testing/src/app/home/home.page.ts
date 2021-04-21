@@ -8,6 +8,7 @@ import { BluetoothLE } from '@ionic-native/bluetooth-le/ngx';
 })
 export class HomePage implements OnInit{
 
+  address: string = '';
   constructor(private bluetoothLE: BluetoothLE) {}
 
   async central(){
@@ -18,9 +19,9 @@ export class HomePage implements OnInit{
     console.log(a1); // verifica ble enabled e inicializado
 
     var param_scan = {
-     "services": [
-          "180D",
-          "180F"
+      "services": [
+        //"180D",
+        //"180F"
       ],
       "allowDuplicates": true,
       "scanMode": this.bluetoothLE.SCAN_MODE_LOW_LATENCY,
@@ -28,21 +29,39 @@ export class HomePage implements OnInit{
       "matchNum": this.bluetoothLE.MATCH_NUM_MAX_ADVERTISEMENT,
       "callbackType": this.bluetoothLE.CALLBACK_TYPE_ALL_MATCHES,
     }
+    console.log('location enabled: ');
+    console.log(await this.bluetoothLE.isLocationEnabled());
+    this.bluetoothLE.hasPermission().then(res => {
+      if(res.hasPermission == false){
+        this.bluetoothLE.requestPermission();
+        console.log('pedir permissao');
+      }
+    })
 
+    
     this.bluetoothLE.startScan(param_scan).subscribe(scanStatus => {
       if(scanStatus.status == 'scanStarted'){
         console.log('em scanning');
       }
       if(scanStatus.status == 'scanResult'){
         console.log('encontrei algo');
-        console.log(scanStatus.name);
+        console.log(scanStatus);
+        this.address = scanStatus.address;
+        this.stopScan();
+        var params = {
+          address: this.address
+        }
+        this.bluetoothLE.connect(params).subscribe(status => {
+          console.log(status);
+          //if(status) this.bluetoothLE.disconnect(params);
+        });
       }
     }); // inicia scanning -> se encontrar algo, print it 
 
-    // não consigo que encontre ainda outros devices, mas encontrando deve guardar-se o seu address e name 
+
+
     // posteriormente conectar e enviar um hello world 
 
-    console.log(await this.bluetoothLE.isScanning());
 
     console.log('fim central');
   }
@@ -78,13 +97,33 @@ export class HomePage implements OnInit{
 
 
 
+  async stopScan(){
+    this.bluetoothLE.stopScan();
+    //console.log(this.address);
+  }
 
 
-
-
+  connect(){
+    var params = {
+      address: this.address
+    }
+    this.bluetoothLE.connect(params).subscribe();
+  }
 
   async ngOnInit() {
     this.bluetoothLE.initialize().subscribe(); //inicia BLE
     this.bluetoothLE.enable(); // enable BLE 
-  } 
+  }
+
+
+  async centralMode(){
+    //this.address='';
+    this.central();
+    //this.central().then(() =>{
+    //  if (this.address!=''){
+    //    console.log('here');
+    //    this.connect();
+    //  }
+    //});    
+  }
 }
