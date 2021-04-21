@@ -12,8 +12,7 @@ export class HomePage implements OnInit{
 
   async central(){
     console.log('inicia central')
-    this.bluetoothLE.initialize().subscribe(); //inicia BLE
-    this.bluetoothLE.enable(); // enable BLE 
+
 
     var a1 = await this.bluetoothLE.getAdapterInfo();
     console.log(a1); // verifica ble enabled e inicializado
@@ -29,24 +28,55 @@ export class HomePage implements OnInit{
       "matchNum": this.bluetoothLE.MATCH_NUM_MAX_ADVERTISEMENT,
       "callbackType": this.bluetoothLE.CALLBACK_TYPE_ALL_MATCHES,
     }
-    this.bluetoothLE.startScan(param_scan).subscribe(); // inicia scanning
 
-    var a2; 
-    var i=0;
-    while(i<50){
-      a2 = await this.bluetoothLE.isScanning(); 
-      i+=1;
-    }
-    console.log(a2); // verifica se continua scanning mesmo depois do ciclo
+    this.bluetoothLE.startScan(param_scan).subscribe(scanStatus => {
+      if(scanStatus.status == 'scanStarted'){
+        console.log('em scanning');
+      }
+      if(scanStatus.status == 'scanResult'){
+        console.log('encontrei algo');
+        console.log(scanStatus.name);
+      }
+    }); // inicia scanning -> se encontrar algo, print it 
+
+    // não consigo que encontre ainda outros devices, mas encontrando deve guardar-se o seu address e name 
+    // posteriormente conectar e enviar um hello world 
+
+    console.log(await this.bluetoothLE.isScanning());
 
     console.log('fim central');
   }
 
 
-async peripheral(){
-  console.log('inicia peripheral');
-  console.log('fim peripheral');
-}
+  async peripheral(){
+    console.log('inicia peripheral');
+
+    var param = {
+      "request": true,
+      "restoreKey": "bluetoothleplugin"
+    }
+    this.bluetoothLE.initializePeripheral(param).subscribe(); // inicia peripheral
+
+    // ADICIONAR SERVICES ???
+
+
+    var params = {
+      "services":["1234"], //iOS
+      "service":"1234", //Android
+      "name":"Hello World",
+    }
+    var status = await this.bluetoothLE.startAdvertising(params);
+    console.log(status)
+
+    var isAdv = await this.bluetoothLE.isAdvertising();
+    console.log(isAdv); // A ENVIAR ADV PACKETS CHECK
+
+
+    console.log('fim peripheral');
+  }
+
+
+
 
 
 
@@ -54,37 +84,7 @@ async peripheral(){
 
 
   async ngOnInit() {
-  //  console.log('on init');
-  //  //------------------
-  //  this.bluetoothLE.initialize().subscribe();
-  //  this.bluetoothLE.enable();
-//
-  //  const a1 = await this.bluetoothLE.getAdapterInfo();
-  //  console.log(a1);
-//
-  //  //var param = {
-  //  //  "services": [
-  //  //    "180D",
-  //  //    "180F"
-  //  //  ],
-  //  //  "allowDuplicates": true,
-  //  //  "scanMode": this.bluetoothLE.SCAN_MODE_LOW_LATENCY,
-  //  //  "matchMode": this.bluetoothLE.MATCH_MODE_AGGRESSIVE,
-  //  //  "matchNum": this.bluetoothLE.MATCH_NUM_MAX_ADVERTISEMENT,
-  //  //  "callbackType": this.bluetoothLE.CALLBACK_TYPE_ALL_MATCHES,
-  //  //}
-  //  //this.bluetoothLE.startScan(param1).subscribe();
-  //  this.bluetoothLE.startScan({'services':[]});
-  //  const a2 = this.bluetoothLE.isScanning(); // yes 
-  //  console.log(a2);
-//
-//
-  //  //------------------
-  //  console.log('finito init');
+    this.bluetoothLE.initialize().subscribe(); //inicia BLE
+    this.bluetoothLE.enable(); // enable BLE 
   } 
-
-
-
-
-
 }
