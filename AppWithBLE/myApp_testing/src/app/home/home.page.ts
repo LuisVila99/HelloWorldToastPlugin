@@ -18,17 +18,6 @@ export class HomePage implements OnInit{
     var a1 = await this.bluetoothLE.getAdapterInfo();
     console.log(a1); // verifica ble enabled e inicializado
 
-    var param_scan = {
-      "services": [
-        //"180D",
-        //"180F"
-      ],
-      "allowDuplicates": true,
-      "scanMode": this.bluetoothLE.SCAN_MODE_LOW_LATENCY,
-      "matchMode": this.bluetoothLE.MATCH_MODE_AGGRESSIVE,
-      "matchNum": this.bluetoothLE.MATCH_NUM_MAX_ADVERTISEMENT,
-      "callbackType": this.bluetoothLE.CALLBACK_TYPE_ALL_MATCHES,
-    }
     console.log('location enabled: ');
     console.log(await this.bluetoothLE.isLocationEnabled());
     this.bluetoothLE.hasPermission().then(res => {
@@ -38,38 +27,39 @@ export class HomePage implements OnInit{
       }
     })
 
+    var param_scan = {
+      "services": [],
+      "allowDuplicates": true,
+      "scanMode": this.bluetoothLE.SCAN_MODE_LOW_LATENCY,
+      "matchMode": this.bluetoothLE.MATCH_MODE_AGGRESSIVE,
+      "matchNum": this.bluetoothLE.MATCH_NUM_MAX_ADVERTISEMENT,
+      "callbackType": this.bluetoothLE.CALLBACK_TYPE_ALL_MATCHES,
+    }
     
     this.bluetoothLE.startScan(param_scan).subscribe(scanStatus => {
       if(scanStatus.status == 'scanStarted'){
-        console.log('em scanning');
+        console.log('em scanning...');
       }
-      if(scanStatus.status == 'scanResult'){
-        console.log('encontrei algo');
-        console.log(scanStatus);
-        if(scanStatus.address==""){
-          this.stopScan();
-          console.log('buenas');
-          this.address = "";
-          var params = {
-            address: this.address
-          }
-          this.bluetoothLE.connect(params).subscribe(status => {
-            console.log('aqui')
-            console.log(status);
-            //if(status) this.bluetoothLE.disconnect(params);
-          });
-        }
-        //this.stopScan();
-        
-      }
+      if(scanStatus.status == 'scanResult' && scanStatus.address != "D0:03:DF:C3:34:3B" && scanStatus.address!="24:4B:03:93:E4:AB"){
+        console.log(scanStatus); // printa o que encontra
+        this.stopScan(); //para o scan -> se o conect falhar, recomeçar a mao 
+        this.conectaPfv(scanStatus.address); // tenta conectar ig 
+       }
     }); 
+  }
 
 
 
-    
 
-
-    console.log('fim central');
+  conectaPfv(xd: string){
+    var params = {
+          address: xd
+    }
+    this.bluetoothLE.connect(params).subscribe(oi =>{
+      console.log('oi'); console.log(oi);
+      this.bluetoothLE.isConnected(params).then(res=>console.log(res));
+    });
+    console.log('final conect')
   }
 
 
@@ -133,16 +123,16 @@ export class HomePage implements OnInit{
 
   async stopScan(){
     this.bluetoothLE.stopScan();
-    //console.log(this.address);
+    console.log('parei scan');
   }
 
 
-  connect(){
-    var params = {
-      address: this.address
-    }
-    this.bluetoothLE.connect(params).subscribe();
-  }
+  //connect(){
+  //  var params = {
+  //    address: this.address
+  //  }
+  //  this.bluetoothLE.connect(params).subscribe();
+  //}
 
   async ngOnInit() {
     this.bluetoothLE.initialize().subscribe(); //inicia BLE
