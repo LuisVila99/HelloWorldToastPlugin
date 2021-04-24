@@ -46,25 +46,33 @@ export class HomePage implements OnInit{
       if(scanStatus.status == 'scanResult'){
         console.log('encontrei algo');
         console.log(scanStatus);
-        this.address = scanStatus.address;
-        this.stopScan();
-        var params = {
-          address: this.address
+        if(scanStatus.address==""){
+          this.stopScan();
+          console.log('buenas');
+          this.address = "";
+          var params = {
+            address: this.address
+          }
+          this.bluetoothLE.connect(params).subscribe(status => {
+            console.log('aqui')
+            console.log(status);
+            //if(status) this.bluetoothLE.disconnect(params);
+          });
         }
-        this.bluetoothLE.connect(params).subscribe(status => {
-          console.log(status);
-          //if(status) this.bluetoothLE.disconnect(params);
-        });
+        //this.stopScan();
+        
       }
-    }); // inicia scanning -> se encontrar algo, print it 
+    }); 
 
 
 
-    // posteriormente conectar e enviar um hello world 
+    
 
 
     console.log('fim central');
   }
+
+
 
 
   async peripheral(){
@@ -77,14 +85,40 @@ export class HomePage implements OnInit{
     this.bluetoothLE.initializePeripheral(param).subscribe(); // inicia peripheral
 
     // ADICIONAR SERVICES ???
-
-
     var params = {
+      service: "1234",
+      characteristics: [
+        {
+          uuid: "ABCD",
+          permissions: {
+            read: true,
+            write: true,
+            //readEncryptionRequired: true,
+            //writeEncryptionRequired: true,
+          },
+          properties : {
+            read: true,
+            writeWithoutResponse: true,
+            write: true,
+            notify: true,
+            indicate: true,
+            //authenticatedSignedWrites: true,
+            //notifyEncryptionRequired: true,
+            //indicateEncryptionRequired: true,
+          }
+        }
+      ]
+    };
+    var stat = await this.bluetoothLE.addService(params);
+    console.log(stat);
+
+
+    var paramz = {
       "services":["1234"], //iOS
       "service":"1234", //Android
       "name":"Hello World",
     }
-    var status = await this.bluetoothLE.startAdvertising(params);
+    var status = await this.bluetoothLE.startAdvertising(paramz);
     console.log(status)
 
     var isAdv = await this.bluetoothLE.isAdvertising();
