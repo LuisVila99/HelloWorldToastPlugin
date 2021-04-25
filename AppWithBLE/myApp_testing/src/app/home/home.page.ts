@@ -13,6 +13,8 @@ export class HomePage implements OnInit{
 
   async central(){
     console.log('inicia central')
+    this.bluetoothLE.initialize().subscribe(); //inicia BLE
+    this.bluetoothLE.enable(); // enable BLE 
 
 
     var a1 = await this.bluetoothLE.getAdapterInfo();
@@ -40,10 +42,20 @@ export class HomePage implements OnInit{
       if(scanStatus.status == 'scanStarted'){
         console.log('em scanning...');
       }
-      if(scanStatus.status == 'scanResult' && scanStatus.address != "D0:03:DF:C3:34:3B" && scanStatus.address!="24:4B:03:93:E4:AB"){
+      if(scanStatus.status == 'scanResult' && scanStatus.name == 'Hello World'){
         console.log(scanStatus); // printa o que encontra
-        this.stopScan(); //para o scan -> se o conect falhar, recomeçar a mao 
-        this.conectaPfv(scanStatus.address); // tenta conectar ig 
+        //this.stopScan(); //para o scan -> se o conect falhar, recomeçar a mao 
+        var param = {
+          address: scanStatus.address
+        }
+
+        this.bluetoothLE.connect(param).subscribe(status =>
+          console.log(status)
+        );
+
+        //this.bluetoothLE.disconnect(param).then(status =>
+        //  console.log(status)
+        //);
        }
     }); 
   }
@@ -51,22 +63,13 @@ export class HomePage implements OnInit{
 
 
 
-  conectaPfv(xd: string){
-    var params = {
-          address: xd
-    }
-    this.bluetoothLE.connect(params).subscribe(oi =>{
-      console.log('oi'); console.log(oi);
-      this.bluetoothLE.isConnected(params).then(res=>console.log(res));
-    });
-    console.log('final conect')
-  }
-
 
 
 
   async peripheral(){
     console.log('inicia peripheral');
+    this.bluetoothLE.initialize().subscribe(); //inicia BLE
+    this.bluetoothLE.enable(); // enable BLE 
 
     var param = {
       "request": true,
@@ -115,6 +118,8 @@ export class HomePage implements OnInit{
     console.log(isAdv); // A ENVIAR ADV PACKETS CHECK
 
 
+
+
     console.log('fim peripheral');
   }
 
@@ -135,8 +140,7 @@ export class HomePage implements OnInit{
   //}
 
   async ngOnInit() {
-    this.bluetoothLE.initialize().subscribe(); //inicia BLE
-    this.bluetoothLE.enable(); // enable BLE 
+    
   }
 
 
