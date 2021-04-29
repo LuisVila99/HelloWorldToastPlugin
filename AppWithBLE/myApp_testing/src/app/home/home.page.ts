@@ -44,9 +44,10 @@ export class HomePage {
     }
     // INICIA SCANNING
     this.bluetoothLE.startScan(param_scan).subscribe(scanStatus => {
-      if(scanStatus.status == 'scanStarted'){
+      if(scanStatus.status == 'scanStarted'){ // printa tudo o que encontrar
         console.log('em scanning...');
       }
+      if(scanStatus.status == 'scanResult') console.log(scanStatus);
       if(scanStatus.status == 'scanResult' && scanStatus.name == 'Hello World'){ //hardcoded para encontrar o peripheral 'Hello World'
         console.log(scanStatus); // printa se encontrar
         //this.stopScan(); //para o scan -> se o conect falhar, recomeçar a mao (dropped porque influencia o scanning)
