@@ -53,23 +53,23 @@ export class HomePage {
         console.log(scanStatus); // printa se encontrar
         var param = {address: scanStatus.address};
         //this.stopScan(); //para o scan -> se o conect falhar, recomeçar a mao (dropped porque influencia o scanning)
-       
-        
+
         //CONECTAR À ADRESS ENCONTRADA (correspondente ao scanStatus.name == 'Hello World')
         this.bluetoothLE.connect(param).subscribe(status =>{
           console.log(status);
-          // TENTAR WRITE AQUI
-          //var read = {
-          //  "address": scanStatus.address,
-          //  "service": "1234",
-          //  "characteristic": "2a38"
-          //};
-          //console.log(read);
-          console.log('boas amigo');
-          //this.bluetoothLE.read(read).then(res =>{
-          //  console.log(res); 
-          //  this.bluetoothLE.disconnect(param).then(s => console.log(s)); 
-          //});
+          var disc = {address: scanStatus.address, clearCache: false};
+          this.bluetoothLE.discover(disc).then(r => {
+            console.log(r)
+            console.log(r.services)
+
+            var write = {"value":"V3JpdGUgSGVsbG8gV29ybGQ=","service":"1234","characteristic":"ABCD","type":"noResponse","address":scanStatus.address};
+            this.bluetoothLE.write(write).then(res => {
+              console.log(res);
+              this.bluetoothLE.disconnect(param).then(s => console.log(s)); 
+            });
+
+            
+          });
         });
        }
     }); 
