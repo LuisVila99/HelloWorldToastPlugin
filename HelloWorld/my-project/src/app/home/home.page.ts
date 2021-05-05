@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MyFirstPlugin } from '@ionic-native/my-first-plugin/ngx';
+import { BluetoothLePlugin } from '@ionic-native/bluetooth-le-plugin/ngx';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +8,12 @@ import { MyFirstPlugin } from '@ionic-native/my-first-plugin/ngx';
 })
 export class HomePage {
 
-  constructor(private myFirstPlugin: MyFirstPlugin) {}
+  constructor(private ble: BluetoothLePlugin) {}
 
-  test() {
-    console.log('toast message')
-    this.myFirstPlugin.nativeToast().then();
+
+  initAndEnable(){
+    this.ble.initialize().subscribe();
+    this.ble.enable();
   }
 
 }

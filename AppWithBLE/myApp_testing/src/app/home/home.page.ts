@@ -10,6 +10,7 @@ export class HomePage {
 
   constructor(private bluetoothLE: BluetoothLE) {}
 
+  
   //--------------\\
   // CENTRAL MODE \\
   //--------------\\
@@ -47,18 +48,29 @@ export class HomePage {
       if(scanStatus.status == 'scanStarted'){ // printa tudo o que encontrar
         console.log('em scanning...');
       }
-      if(scanStatus.status == 'scanResult') console.log(scanStatus);
+      //if(scanStatus.status == 'scanResult') console.log(scanStatus);
       if(scanStatus.status == 'scanResult' && scanStatus.name == 'Hello World'){ //hardcoded para encontrar o peripheral 'Hello World'
         console.log(scanStatus); // printa se encontrar
+        var param = {address: scanStatus.address};
         //this.stopScan(); //para o scan -> se o conect falhar, recomeçar a mao (dropped porque influencia o scanning)
+       
         
         //CONECTAR À ADRESS ENCONTRADA (correspondente ao scanStatus.name == 'Hello World')
-        var param = {
-          address: scanStatus.address
-        }
-        this.bluetoothLE.connect(param).subscribe(status =>
-          console.log(status)
-        );
+        this.bluetoothLE.connect(param).subscribe(status =>{
+          console.log(status);
+          // TENTAR WRITE AQUI
+          //var read = {
+          //  "address": scanStatus.address,
+          //  "service": "1234",
+          //  "characteristic": "2a38"
+          //};
+          //console.log(read);
+          console.log('boas amigo');
+          //this.bluetoothLE.read(read).then(res =>{
+          //  console.log(res); 
+          //  this.bluetoothLE.disconnect(param).then(s => console.log(s)); 
+          //});
+        });
        }
     }); 
   }
@@ -104,8 +116,7 @@ export class HomePage {
         }
       ]
     };
-    var stat = await this.bluetoothLE.addService(params);
-    console.log(stat);
+    this.bluetoothLE.addService(params).then(stat => console.log(stat));
 
     // INICIA ADVERTISING COM SERVICE 1234 e define-se o nome Hello World
     var paramz = {
@@ -127,4 +138,9 @@ export class HomePage {
     this.bluetoothLE.stopScan();
     console.log('parei scan');
   }
+
+  //async disconnect(param){
+  //  await this.bluetoothLE.disconnect(param);
+  //  console.log('ja estava conectado.... desconectei....');
+  //}
 }

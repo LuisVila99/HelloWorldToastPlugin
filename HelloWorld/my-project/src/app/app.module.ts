@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import {MyFirstPlugin} from '@ionic-native/my-first-plugin/ngx';
+import { BluetoothLePlugin } from '@ionic-native/bluetooth-le-plugin/ngx';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, MyFirstPlugin],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, BluetoothLePlugin],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

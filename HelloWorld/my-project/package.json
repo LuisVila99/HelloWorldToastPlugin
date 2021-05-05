@@ -35,7 +35,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
-    "com.joangape.myfirstplugin": "file:../custom_plugins/MyFirstPlugin",
+    "com.randdusing.bluetoothle": "file:../custom_plugins/BluetoothLePlugin",
     "cordova-android": "9.0.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
@@ -67,7 +67,7 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "com.joangape.myfirstplugin": {}
+      "com.randdusing.bluetoothle": {}
     },
     "platforms": [
       "android"

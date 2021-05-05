@@ -1,0 +1,17 @@
+{
+  "name": "com.randdusing.bluetoothle",
+  "version": "0.0.1",
+  "description": "",
+  "cordova": {
+    "id": "com.randdusing.bluetoothle",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "",
+  "license": "ISC"
+}
