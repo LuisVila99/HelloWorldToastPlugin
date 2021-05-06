@@ -43,6 +43,9 @@ export class HomePage {
       "matchNum": this.bluetoothLE.MATCH_NUM_MAX_ADVERTISEMENT,
       "callbackType": this.bluetoothLE.CALLBACK_TYPE_ALL_MATCHES,
     }
+
+
+
     // INICIA SCANNING
     this.bluetoothLE.startScan(param_scan).subscribe(scanStatus => {
       if(scanStatus.status == 'scanStarted'){ // printa tudo o que encontrar
@@ -57,17 +60,21 @@ export class HomePage {
         //CONECTAR À ADRESS ENCONTRADA (correspondente ao scanStatus.name == 'Hello World')
         this.bluetoothLE.connect(param).subscribe(status =>{
           console.log(status);
+
           var disc = {address: scanStatus.address, clearCache: false};
           this.bluetoothLE.discover(disc).then(r => {
             console.log(r)
             console.log(r.services)
 
             var write = {"value":"V3JpdGUgSGVsbG8gV29ybGQ=","service":"1234","characteristic":"ABCD","type":"noResponse","address":scanStatus.address};
-            this.bluetoothLE.write(write).then(res => {
-              console.log(res);
-              this.bluetoothLE.disconnect(param).then(s => console.log(s)); 
-            });
-
+            var i=0;
+            while(i < 10){
+                this.bluetoothLE.write(write).then(res => {
+                  console.log(res);                  
+                });
+                i+=1;
+            }
+            this.bluetoothLE.disconnect(param).then(s => console.log(s));
             
           });
         });
@@ -91,7 +98,7 @@ export class HomePage {
     }
     this.bluetoothLE.initializePeripheral(param).subscribe();
 
-    // ADICIONAR SERVICES ??? -> como estava no readme do plugin
+    // ADICIONAR SERVICES
     var params = {
       service: "1234",
       characteristics: [
@@ -128,6 +135,9 @@ export class HomePage {
     console.log(status)
     var isAdv = await this.bluetoothLE.isAdvertising();
     console.log(isAdv); // CONFIRMA QUE ESTÁ ADVERTISING 
+
+
+
 
     console.log('fim peripheral');
   }
