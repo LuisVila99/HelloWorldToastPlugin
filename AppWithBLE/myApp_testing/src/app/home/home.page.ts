@@ -66,8 +66,9 @@ export class HomePage {
             console.log(r)
             console.log(r.services)
 
-            var write = {"value":"V3JpdGUgSGVsbG8gV29ybGQ=","service":"1234","characteristic":"ABCD","type":"noResponse","address":scanStatus.address};
             var i=0;
+            var str = "V3JpdGUgSGVsbG8gV29ybGQ=";
+            var write = {"value":str,"service":"1234","characteristic":"ABCD","type":"noResponse","address":scanStatus.address};
             while(i < 10){
                 this.bluetoothLE.write(write).then(res => {
                   console.log(res);                  
