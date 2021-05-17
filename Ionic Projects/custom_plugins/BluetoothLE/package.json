@@ -1,0 +1,17 @@
+{
+  "name": "com.vilz.bluetoothle",
+  "version": "0.0.1",
+  "description": "",
+  "cordova": {
+    "id": "com.vilz.bluetoothle",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "",
+  "license": "ISC"
+}
