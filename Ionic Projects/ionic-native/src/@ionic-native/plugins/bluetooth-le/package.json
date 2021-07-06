@@ -1,0 +1,54 @@
+{
+  "_from": "@ionic-native/bluetooth-le@^5.32.1",
+  "_id": "@ionic-native/bluetooth-le@5.32.1",
+  "_inBundle": false,
+  "_integrity": "sha512-oR/+/FPGdd/R/DE3KOIf4UWveEIb8cM5HlvdNyoR+M+M2H4usX/6gXoKpqFYx0XLFvCwFXNY0eQT19qrairjVQ==",
+  "_location": "/@ionic-native/bluetooth-le",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@ionic-native/bluetooth-le@^5.32.1",
+    "name": "@ionic-native/bluetooth-le",
+    "escapedName": "@ionic-native%2fbluetooth-le",
+    "scope": "@ionic-native",
+    "rawSpec": "^5.32.1",
+    "saveSpec": null,
+    "fetchSpec": "^5.32.1"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@ionic-native/bluetooth-le/-/bluetooth-le-5.32.1.tgz",
+  "_shasum": "6fb681f1e164a7a5dd82383a98184f49fb8f1104",
+  "_spec": "@ionic-native/bluetooth-le@^5.32.1",
+  "_where": "C:\\Users\\luisp\\Desktop\\HelloWorldToastPlugin\\AppWithBLE\\myApp_testing",
+  "author": {
+    "name": "ionic"
+  },
+  "bugs": {
+    "url": "https://github.com/ionic-team/ionic-native/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@types/cordova": "latest"
+  },
+  "deprecated": false,
+  "description": "Ionic Native - Native plugins for ionic apps",
+  "homepage": "https://github.com/ionic-team/ionic-native#readme",
+  "license": "MIT",
+  "main": "bundle.js",
+  "module": "index.js",
+  "name": "@ionic-native/bluetooth-le",
+  "peerDependencies": {
+    "rxjs": "^5.5.0 || ^6.5.0",
+    "@ionic-native/core": "^5.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ionic-team/ionic-native.git"
+  },
+  "typings": "index.d.ts",
+  "version": "5.32.1"
+}

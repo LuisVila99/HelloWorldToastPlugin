@@ -1,2 +1,19 @@
-<?xml version='1.0' encoding='utf-8'?>
-<plugin id="com.vilz.bluetoothle" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android"><name>BluetoothLE</name><js-module name="BluetoothLE" src="www/BluetoothLE.js"><clobbers target="cordova.plugins.BluetoothLE" /></js-module><platform name="android"><config-file parent="/*" target="res/xml/config.xml"><feature name="BluetoothLE"><param name="android-package" value="com.vilz.bluetoothle.BluetoothLE" /></feature></config-file><config-file parent="/*" target="AndroidManifest.xml"></config-file><source-file src="src/android/BluetoothLE.java" target-dir="src/com/vilz/bluetoothle/BluetoothLE" /></platform></plugin>
+<?xml version="1.0" encoding="utf-8"?>
+<plugin id="com.vilz.bluetoothle" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>
+		BluetoothLE
+	</name>
+	<js-module name="BluetoothLE" src="www/BluetoothLE.js">
+		<clobbers target="cordova.plugins.BluetoothLE" />
+	</js-module>
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="BluetoothLE">
+				<param name="android-package" value="com.vilz.bluetoothle.BluetoothLE" />
+			</feature>
+		</config-file>
+		<config-file parent="/*" target="AndroidManifest.xml">
+		</config-file>
+		<source-file src="src/android/BluetoothLE.java" target-dir="src/com/vilz/bluetoothle/BluetoothLE" />
+	</platform>
+</plugin>

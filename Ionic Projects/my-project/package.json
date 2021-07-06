@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~11.2.0",
     "@angular/platform-browser-dynamic": "~11.2.0",
     "@angular/router": "~11.2.0",
+    "@ionic-native/bluetooth-le": "^5.33.0",
     "@ionic/angular": "^5.5.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
@@ -42,6 +43,7 @@
     "@typescript-eslint/parser": "4.16.1",
     "com.vilz.bluetoothle": "file:../custom_plugins/BluetoothLE",
     "cordova-android": "^9.1.0",
+    "cordova-plugin-bluetoothle": "^6.3.1",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^4.2.1",
@@ -75,7 +77,8 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "com.vilz.bluetoothle": {}
+      "com.vilz.bluetoothle": {},
+      "cordova-plugin-bluetoothle": {}
     },
     "platforms": [
       "android"
